@@ -3,8 +3,6 @@ require 'pry'
 class Owner
   # code goes here
   attr_reader :name, :species
-  attr_writer 
-  attr_accessor
   @@all = []
 
   def initialize (name)
@@ -22,7 +20,7 @@ class Owner
   end
 
   def self.count
-    return @@all.length
+    return self.all.length
   end
 
   def self.reset_all
@@ -30,27 +28,15 @@ class Owner
   end
 
   def cats
-    catsowned = []
-    #binding.pry
-    Cat.all.each do |cat|
-      #binding.pry
-      if cat.owner == self
-        catsowned << cat
-      end
-    end
-    return catsowned  
+    Cat.all.find_all do |cat|
+      cat.owner == self
+    end  
   end
 
   def dogs
-    dogsowned = []
-    #binding.pry
-    Dog.all.each do |dog|
-      #binding.pry
-      if dog.owner == self
-        dogsowned << dog
-      end
-    end
-    return dogsowned  
+    Dog.all.find_all do |dog|
+      dog.owner == self
+    end  
   end
 
   def buy_cat(cat_name)
