@@ -31,21 +31,51 @@ class Owner
 
   def cats
     Cat.all.select do |item|      
-      item.owner.name == self.name
+      item.owner == self
     end
   end
-  
+
   def dogs
     Dog.all.select do |pup|
       pup.owner == self
     end
   end
 
+  def buy_cat(cat_name)
+    Cat.new(cat_name, self)
+  end
+
+  def buy_dog(name)
+    Dog.new(name, self)
+  end
+
+  def walk_dogs
+    self.dogs.each {|dog| dog.mood = "happy"}
+  end
+
+  def feed_cats
+    self.cats.each {|cat| cat.mood = "happy"}
+  end
 
 
-  #know about pets
+  def sell_pets
+    self.dogs.each do |d|     d.mood = "nervous"
+      d.owner = nil
 
-  #buy pets
+    end
+    
+    self.cats.each do |c|     c.mood = "nervous"   
+      c.owner = nil
+    end
+    
+  end
+
+
+  def list_pets
+    "I have #{self.dogs.count} dog(s), and #{self.cats.count} cat(s)."
+
+  end
+
 
 
 
