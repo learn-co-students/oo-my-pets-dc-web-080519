@@ -1,15 +1,9 @@
 require 'pry'
 
 class Owner
-  #class methods:
-    #.all - return all instances of owner that have been created
   @@all = []
-    #.count - return # of owners created
-  
-    #.reset_all resets owners
-  
-    attr_reader :name, :species, :say_species
-
+  attr_reader :name, :species, :say_species
+ 
   def initialize(name)
     @name = name
     @species = "human"
@@ -18,15 +12,19 @@ class Owner
   end
 
   def self.all
-    return @@all
+    @@all
   end
 
   def self.count  
-    return self.all.count
+    self.all.count
   end
 
   def self.reset_all
-    @@all = []
+      # @@all = []
+      # above will pass tests, but not best practice b/c it's directly changing another class method
+    self.all.clear
+    # this will instead run a method on @@all method instead of reset/changing it -- less likely to break it -- gives you flexibiliity if you change something about @@all later
+
   end
 
   def cats
@@ -45,8 +43,8 @@ class Owner
     Cat.new(cat_name, self)
   end
 
-  def buy_dog(name)
-    Dog.new(name, self)
+  def buy_dog(dog_name)
+    Dog.new(dog_name, self)
   end
 
   def walk_dogs
@@ -57,26 +55,16 @@ class Owner
     self.cats.each {|cat| cat.mood = "happy"}
   end
 
-
   def sell_pets
-    self.dogs.each do |d|     d.mood = "nervous"
-      d.owner = nil
-
-    end
-    
-    self.cats.each do |c|     c.mood = "nervous"   
-      c.owner = nil
-    end
-    
+    my_pets = self.dogs + self.cats
+    my_pets.each do |pet|
+      pet.mood = "nervous"
+      pet.owner = nil
+    end    
   end
-
 
   def list_pets
     "I have #{self.dogs.count} dog(s), and #{self.cats.count} cat(s)."
 
   end
-
-
-
-
 end
